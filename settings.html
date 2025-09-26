@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Settings Dashboard</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
+
+body {
+    display:flex;
+    min-height:100vh;
+    background:#FAF3E0;
+    transition: background 0.3s;
+}
+
+.dashboard { display:flex; width:100%; }
+
+
+.sidebar {
+    width:220px;
+    background:#0d3b97;  
+    color:white;
+    padding:20px 0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    transition: transform 0.3s ease;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    z-index:1000;
+}
+
+.sidebar h2 {
+    margin-bottom:40px;
+    font-size:25px;
+    font-weight:700;
+}
+
+.sidebar a {
+    color:white;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 20px;
+    width:100%;
+    font-size:15px;
+    transition: background 0.3s ease, padding-left 0.3s ease;
+}
+.sidebar a:hover {
+    background:rgba(255,255,255,0.1);
+    padding-left:30px;
+}
+.sidebar a i {
+    width:20px;
+    text-align:center;
+}
+
+.close-btn {
+    display:none;
+    position:absolute;
+    top:10px;
+    right:10px;
+    font-size:28px;
+    background:none;
+    border:none;
+    color:white;
+    cursor:pointer;
+}
+
+.main {
+    flex:1;
+    margin-left:220px;
+    padding:2rem;
+    overflow-y:auto;
+    transition: margin-left 0.3s ease;
+}
+
+
+.settings-section {
+    background:#fff;
+    border-radius:12px;
+    padding:1.5rem;
+    margin-bottom:1.5rem;
+    border:1px solid #e2e8f0;
+    box-shadow:0 1px 3px rgb(0 0 0 / 0.1);
+}
+
+.section-title { font-size:1.25rem; font-weight:600; margin-bottom:1rem; color:#0d3b97; }
+
+.form-group { margin-bottom:1rem; }
+.form-label { display:block; margin-bottom:0.5rem; font-weight:500; }
+.form-input {
+    width:100%;
+    padding:0.75rem;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    font-size:1rem;
+}
+.form-input:focus { border-color:#0d3b97; outline:none; }
+
+.password-container { position:relative; }
+.password-toggle {
+    position:absolute;
+    right:0.75rem;
+    top:50%;
+    transform:translateY(-50%);
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-size:0.875rem;
+    color:#64748b;
+    
+}
+
+.toggle-container { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+.toggle-switch {
+    width:48px; height:24px; background:#cbd5e1; border-radius:12px; position:relative; cursor:pointer;
+}
+.toggle-switch.active { background:#0d3b97; }
+.toggle-switch::after {
+    content:''; position:absolute; width:20px; height:20px; top:2px; left:2px; background:white; border-radius:50%; transition: transform 0.3s;
+}
+.toggle-switch.active::after { transform:translateX(24px); }
+
+.radio-group, .checkbox-group { display:flex; gap:1rem; margin-top:0.5rem; }
+.dropdown { width:100%; padding:0.75rem; border-radius:8px; border:1px solid #cbd5e1; }
+.button { padding:0.75rem 1.5rem; border-radius:8px; cursor:pointer; border:none; font-weight:500; transition:background 0.2s; margin-right:1rem; }
+.button-primary { background:#0d3b97; color:white; }
+.button-primary:hover { background:#072c73; }
+.button-danger { background:#ef4444; color:white; }
+.button-danger:hover { background:#dc2626; }
+
+/* Hamburger */
+.hamburger-menu {
+    display:none;
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:1001;
+    cursor:pointer;
+    flex-direction:column;
+    gap:5px;
+}
+.hamburger-menu span { display:block; width:25px; height:3px; background:#fff; border-radius:3px; }
+
+@media(max-width:768px){
+    body { flex-direction:column; }
+    .sidebar {
+        transform:translateX(-100%);
+        width:200px;
+    }
+    .sidebar.open { transform:translateX(0); }
+    .close-btn { display:block; }
+    .main { margin-left:0; transition: transform 0.3s; }
+    .main.pushed { transform:translateX(200px); }
+    .hamburger-menu { display:flex; }
+}
+</style>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleMenu()">×</button>
+        <h2>My Dashboard</h2>
+        <a href="profile.html"><i class="fa-regular fa-circle-user"></i> Profile</a>
+        <a href="dash.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="settings.html"><i class="fa-solid fa-sun"></i> Settings</a>
+        <a href="help.html"><i class="fa-solid fa-headphones"></i> Help</a>
+        <a href="message.html"><i class="fa-solid fa-message"></i> Message</a>
+    </div>
+
+    <!-- Hamburger -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <span></span><span></span><span></span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main" id="mainContent">
+        <div class="settings-section">
+            <h2 class="section-title">Profile Settings</h2>
+            <div class="form-group">
+                <label class="form-label" for="name">Full Name</label>
+                <input type="text" class="form-input" id="name" value="John Doe">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input type="email" class="form-input" id="email" value="john.doe@example.com">
+            </div>
+            <div class="form-group password-container">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" class="form-input" id="password">
+                <button type="button" class="password-toggle" onclick="togglePassword()">Show</button>
+            </div>
+            <button class="button button-primary">Update Profile</button>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">Notifications</h2>
+            <div class="toggle-container">
+                <span>Email Notifications</span>
+                <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+            </div>
+            <div class="toggle-container">
+                <span>Push Notifications</span>
+                <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">Privacy</h2>
+            <div class="radio-group">
+                <label><input type="radio" name="visibility" value="public" checked> Public</label>
+                <label><input type="radio" name="visibility" value="private"> Private</label>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" checked> Share analytics data</label>
+                <label><input type="checkbox"> Share usage stats</label>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">Theme</h2>
+            <div class="toggle-container">
+                <span>Dark Mode</span>
+                <div class="toggle-switch" id="themeToggle" onclick="toggleTheme(this)"></div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">Language</h2>
+            <select class="dropdown">
+                <option value="english">English</option>
+                <option value="español">Español</option>
+                <option value="français">Français</option>
+                <option value="deutsch">Deutsch</option>
+                <option value="हिन्दी">हिन्दी</option>
+                <option value="中文">中文</option>
+                <option value="日本語">日本語</option>
+                <option value="العربية">العربية</option>
+                <option value="русский">русский</option>
+                <option value="português">português</option>
+            </select>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">Account Actions</h2>
+            <button class="button button-primary" id="logout" >Logout</button>
+            <button class="button button-danger" id="Delete-acc">Delete Account</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const sidebar = document.getElementById('sidebar');
+const hamburger = document.getElementById('hamburgerMenu');
+const mainContent = document.getElementById('mainContent');
+
+function toggleMenu(){
+    sidebar.classList.toggle('open');
+    mainContent.classList.toggle('pushed');
+}
+
+hamburger.addEventListener('click', toggleMenu);
+
+document.querySelectorAll('.nav-link').forEach(link=>{
+    link.addEventListener('click', ()=>{
+        if(window.innerWidth <= 768) toggleMenu();
+    });
+});
+
+function togglePassword(){
+    const input = document.getElementById('password');
+    const btn = input.nextElementSibling;
+    if(input.type==='password'){ input.type='text'; btn.textContent='Hide'; }
+    else{ input.type='password'; btn.textContent='Show'; }
+}
+
+function toggleSwitch(el){ el.classList.toggle('active'); }
+
+function toggleTheme(el){
+    el.classList.toggle('active');
+    if(el.classList.contains('active')){
+        document.body.style.background = '#1e293b';
+        document.body.style.color = '#0d3b97';
+    }else{
+        document.body.style.background = '#f8fafc';
+        document.body.style.color = '#0d3b97';
+    }
+}
+
+ document.getElementById("logout").addEventListener('click', function Logout(){
+           window.location.href ="logout.html"
+    });
+
+document.getElementById("Delete-acc").addEventListener('click', function Delete(){
+           alert("Account deletion in progress. Redirecting you to the confirmation page…")
+           window.location.href ="delete.html"
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Help - Dashboard</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
+
+body {
+    display:flex;
+    min-height:100vh;
+    background:#fdf9f0;
+}
+
+.dashboard { display:flex; width:100%; }
+
+/* Sidebar */
+.sidebar {
+    width:220px;
+    background:#0d2d87;
+    color:white;
+    padding:20px 0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:fixed;
+    top:0; left:0; bottom:0;
+}
+.sidebar h2 { margin-bottom:30px; text-align:center; }
+.sidebar a {
+    color:white;
+    text-decoration:none;
+    display:block;
+    padding:10px 15px;
+    width:100%;
+    text-align:left;
+    transition: background 0.3s, padding-left 0.3s;
+}
+.sidebar a:hover { background:#34495e; padding-left:25px; }
+
+/* Main */
+.main {
+    flex:1;
+    margin-left:220px;
+    padding:2rem;
+    background:#fdf9f0;
+}
+
+/* Section */
+.section {
+    background:white;
+    padding:1.5rem;
+    margin-bottom:1.5rem;
+    border-radius:12px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+.section h2 {
+    font-size:1.4rem;
+    color:#0d2d87;
+    margin-bottom:1rem;
+}
+
+/* Accordion (FAQ) */
+.accordion {
+    margin-bottom:1rem;
+}
+.accordion button {
+    width:100%;
+    text-align:left;
+    padding:1rem;
+    font-size:1rem;
+    border:none;
+    outline:none;
+    background:#0d2d87;
+    color:white;
+    cursor:pointer;
+    border-radius:8px;
+    margin-bottom:0.5rem;
+}
+.accordion button.active, .accordion button:hover {
+    background:#143fa5;
+}
+.accordion .panel {
+    display:none;
+    padding:1rem;
+    background:#f1f5f9;
+    border-radius:8px;
+    margin-bottom:1rem;
+}
+
+/* Form */
+.form-group { margin-bottom:1rem; }
+label { display:block; font-weight:600; margin-bottom:0.5rem; }
+input, textarea {
+    width:100%;
+    padding:0.75rem;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:1rem;
+}
+textarea { resize:vertical; height:100px; }
+
+.button {
+    background:#0d2d87;
+    color:white;
+    padding:0.75rem 1.5rem;
+    border:none;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+}
+.button:hover { background:#143fa5; }
+</style>
+</head>
+<body>
+<div class="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>My Dashboard</h2>
+        <a href="profile.html"><i class="fa-regular fa-circle-user"></i> Profile</a>
+        <a href="dash.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="settings.html"><i class="fa-solid fa-sun"></i> Settings</a>
+        <a href="help.html"><i class="fa-solid fa-headphones"></i> Help</a>
+        <a href="message.html"><i class="fa-solid fa-message"></i> Message</a>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <!-- FAQ Section -->
+        <div class="section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="accordion">
+                <button>How do I reset my password?</button>
+                <div class="panel">Go to Settings → Profile Settings → Change Password.</div>
+            </div>
+
+            <div class="accordion">
+                <button>How can I enable dark mode?</button>
+                <div class="panel">Go to Settings → Theme → Toggle Dark Mode.</div>
+            </div>
+
+            <div class="accordion">
+                <button>How do I contact customer support?</button>
+                <div class="panel">Fill out the form below or email us at support@example.com.</div>
+            </div>
+        </div>
+
+        <!-- Support Form -->
+        <div class="section">
+            <h2>Contact Customer Support</h2>
+            <form>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="query">Your Query</label>
+                    <textarea id="query" placeholder="Write your issue or query..."></textarea>
+                </div>
+                <button type="submit" class="button" onclick="CustomerSupport()">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Accordion toggle
+document.querySelectorAll(".accordion button").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+        btn.classList.toggle("active");
+        let panel = btn.nextElementSibling;
+        panel.style.display = (panel.style.display === "block") ? "none" : "block";
+    });
+});
+function CustomerSupport(){
+    let RandomUserName = document.getElementById("name").value;
+    let RandomUserEmail = document.getElementById("email").value;
+    let RandomUserPhone = document.getElementById("phone").value;
+    let RandomUserQuery = document.getElementById("query").value;
+
+     if (RandomUserName === "" || RandomUserPhone === "" || RandomUserEmail === "" || RandomUserQuery === "") {
+      alert("All fields are required!");
+  } else if (!RandomUserName || !RandomUserEmail || !RandomUserPhone || !RandomUserQuery) {
+        alert("Please fill Every Thing");
+      }  else if (!/^[A-Z]/.test(RandomUserName)) {
+        alert("Name must start with a capital letter");
+      } else if (!RandomUserEmail.endsWith("@gmail.com")) {
+        alert("Email must contain @gmail.com");
+      } else {
+        let RandomUserData = { RandomUserName, RandomUserEmail, RandomUserPhone, RandomUserQuery };
+        localStorage.setItem("userData", JSON.stringify(RandomUserData));
+        alert("Your Query Has been Submit");
+        
+      }
+}
+
+
+</script>
+</body>
+</html>

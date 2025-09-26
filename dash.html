@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      --blue: #1E3A8A;
+      /* deep navy blue */
+      --cream: #FAF3E0;
+      /* soft cream */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      background: var(--cream);
+      color: var(--blue);
+    }
+
+    .dashboard {
+      display: flex;
+      width: 100%;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: #0d3b97;
+      color: var(--cream);
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s ease;
+      position: relative;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      color: var(--cream);
+      text-decoration: none;
+      display: block;
+      padding: 12px 20px;
+      width: 100%;
+      text-align: left;
+      transition: background 0.3s ease, padding-left 0.3s ease;
+      cursor: pointer;
+    }
+
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.15);
+      padding-left: 28px;
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: var(--blue);
+      color: var(--cream);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-center {
+      display: flex;
+      height: 50px;
+      width: 35%;
+      padding: 2px;
+      gap: 12px;
+    }
+
+    .navbar-center i {
+      font-size: 30px;
+    }
+
+    .nav-search-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-input {
+      height: 100%;
+      width: 90%;
+      border-radius: 10px;
+      padding: 3px;
+      background: #FAF3E0;
+    }
+
+    .navbar button {
+      border: none;
+      background: var(--cream);
+      color: var(--blue);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .navbar button:hover {
+      background: #e4d9c1;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 22px;
+      background: none;
+      border: none;
+      color: var(--cream);
+      cursor: pointer;
+    }
+
+    .close-btn {
+      display: none;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: var(--cream);
+      cursor: pointer;
+    }
+
+    /* Welcome Section */
+    .container {
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .child1 {
+      background: var(--blue);
+      color: var(--cream);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .child1 h1 {
+      margin-bottom: 10px;
+    }
+
+    .child1 p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    /* Dashboard Items */
+    .child2 {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .child2-items {
+      flex: 1 1 200px;
+      background: var(--cream);
+      color: var(--blue);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .child2-items:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .child2-items i {
+      font-size: 26px;
+      margin-bottom: 10px;
+      color: var(--blue);
+    }
+
+    /* Section */
+    .sec1 {
+      width: 100%;
+      padding: 40px 20px;
+      background: var(--cream);
+    }
+
+    .sec-tittle {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .sec-tittle h2 {
+      color: var(--blue);
+    }
+
+    .sec-tittle p {
+      color: #333;
+      opacity: 0.8;
+    }
+
+    .sec-cards {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .card {
+
+      flex: 1 1 300px;
+      background: var(--blue);
+      color: var(--cream);
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card i {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    /* Responsive */
+    @media (max-width: 990px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+        z-index: 1000;
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .close-btn {
+        display: block;
+      }
+    }
+
+
+    .map-container {
+      display: flex;
+      /* flex-wrap: wrap; */
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 25px 10px 25px;
+      height: 400px;
+      background-color: transparent;
+      border-radius: 35px;
+      padding: 25px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      border: 1px solid #eee;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      gap: 10%;
+      animation: map-container both;
+      animation-timeline: view(50% 10%);
+    }
+
+    .map-text {
+      text-align: center;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 20px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    @keyframes map-container {
+      from {
+        filter: saturate(0) contrast(0) brightness(0) blur(5px);
+        opacity: 0;
+        scale: 0;
+        translate: 0 4rem;
+      }
+
+      to {
+        filter: contrast(1) brightness(1);
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+    }
+
+    .sec2 {
+      margin: 20px;
+      height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 35px;
+      /* border: 1px solid black; */
+    }
+
+    .sec2-container {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 400px;
+      width: 100%;
+      background: transparent;
+      /* border: 1px solid black; */
+    }
+
+    .sec2-heading {
+      height: 150px;
+      width: 100%;
+      /* border: 1px solid black; */
+      display: flex;
+      flex-direction: column;
+      padding-left: 40px;
+      gap: 10%;
+    }
+
+    .sec2-heading h4 {
+      font-size: 40px;
+    }
+
+    .sec2-content {
+      height: 300px;
+      width: 100%;
+      background-color: transparent;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .content-boxes {
+      flex: 1 1 150px;
+      background-color: #4CAF50;
+      color: #FAF3E0;
+      padding: 20px;
+      text-align: center;
+      background: #1E3A8A;
+      border-radius: 35px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      transition: transform 0.3s ease;
+      animation: content-boxes both;
+      animation-timeline: view(50% 10%);
+    }
+
+    .content-boxes:hover {
+      transform: translateY(-6px);
+    }
+
+    .content-boxes h4 {
+      font-size: 30px;
+    }
+
+    @keyframes content-boxes {
+      from {
+        filter: saturate(0) contrast(0) brightness(0) blur(5px);
+        opacity: 0;
+        scale: 0;
+        translate: 0 4rem;
+      }
+
+      to {
+        filter: contrast(1) brightness(1);
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+    }
+
+    .sec3 {
+      height: 450px;
+      border: 1px solid black;
+    }
+
+    .faq-container {
+      max-width: 700px;
+      margin: 50px auto;
+      font-family: Arial, sans-serif;
+      transition: transform 0.3s ease;
+      animation: faq-container both;
+      animation-timeline: view(50% 10%);
+    }
+
+    @keyframes faq-container {
+      from {
+        filter: saturate(0) contrast(0) brightness(0) blur(5px);
+        opacity: 0;
+        scale: 0;
+        translate: 0 4rem;
+      }
+
+      to {
+        filter: contrast(1) brightness(1);
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .faq-question {
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .faq-question::after {
+      content: '+';
+      position: absolute;
+      right: 0;
+      font-size: 20px;
+      transition: transform 0.3s;
+    }
+
+    .faq-item.active .faq-question::after {
+      transform: rotate(45deg);
+      /* + becomes x */
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      color: #555;
+      margin-top: 5px;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+    }
+
+    .services-section {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .services-section h2 {
+      font-size: 2.2rem;
+      color: #0d3b97;
+      margin-bottom: 10px;
+    }
+
+    .services-section p {
+      color: #0d3b97;
+      margin-bottom: 40px;
+    }
+
+    .services-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .service-card {
+      background: #0d3b97;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: faq-container both;
+      animation-timeline: view(50% 10%);
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .service-card i {
+      font-size: 40px;
+      color: #FAF3E0;
+      margin-bottom: 15px;
+    }
+
+    @keyframes service-card {
+      from {
+        filter: saturate(0) contrast(0) brightness(0) blur(5px);
+        opacity: 0;
+        scale: 0;
+        translate: 0 4rem;
+      }
+
+      to {
+        filter: contrast(1) brightness(1);
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+    }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+      color: #FAF3E0;
+    }
+
+    .service-card p {
+      color: #FAF3E0;
+      font-size: 0.95rem;
+    }
+
+    /* Small animation effect */
+    .highlight {
+      border: 1px solid black;
+      color: #FAF3E0 !important;
+      transform: scale(1.05);
+    }
+     .user-table-section {
+      margin-top: 40px;
+      background-color: transparent;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #userTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+     
+    }
+
+    #userTable th,
+    #userTable td {
+      border: 1px solid #000000;
+      padding: 10px;
+      text-align: left;
+    }
+
+    #userTable th {
+      background-color: black;
+      color: white;
+    }
+
+    .footer {
+      width: 100%;
+      background-color: #222;
+      color: #FAF3E0;
+      padding: 40px 20px 20px 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+      transition: transform 0.3s ease;
+      animation: footer-content both;
+      animation-timeline: view(90% 1%);
+    }
+
+    @keyframes footer-content {
+      from {
+        filter: saturate(0) contrast(0) brightness(0) blur(5px);
+        opacity: 0;
+        scale: 0;
+        translate: 0 4rem;
+      }
+
+      to {
+        filter: contrast(1) brightness(1);
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+    }
+
+    .footer-section {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .footer-section h4 {
+      margin-bottom: 15px;
+      font-size: 18px;
+      color: #FAF3E0;
+    }
+
+    .footer-section p {
+      margin-bottom: 10px;
+      line-height: 1.5;
+      color: #FAF3E0;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-section ul li a {
+      color: #FAF3E0;
+      text-decoration: none;
+    }
+
+    .footer-section ul li a:hover {
+      color: #1e90ff;
+      text-decoration: underline;
+    }
+
+    .footer-section .socials a {
+      margin-right: 10px;
+      color: #FAF3E0;
+      font-size: 18px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-section .socials a:hover {
+      color: #1e90ff;
+    }
+
+    .footer-section.newsletter form {
+      display: flex;
+      gap: 5px;
+    }
+
+    .footer-section.newsletter input {
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      flex: 1;
+    }
+
+    .footer-section.newsletter button {
+      padding: 8px 12px;
+      border: none;
+      background-color: #1e90ff;
+      color: #FAF3E0;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .footer-section.newsletter button:hover {
+      background-color: #0d6efd;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 14px;
+      color: #FAF3E0;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <button class="close-btn" onclick="toggleMenu()">×</button>
+      <h2>My Dashboard</h2>
+      <a href="profile.html"><i class="fa-regular fa-circle-user"></i> Profile</a>
+      <a href="dash.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="settings.html"><i class="fa-solid fa-sun"></i> Settings</a>
+      <a href="help.html"><i class="fa-solid fa-headphones"></i> Help</a>
+      <a href="message.html"><i class="fa-solid fa-message"></i> Message</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <div class="navbar">
+        <div class="navbar-left">
+          <button class="hamburger" onclick="toggleMenu()">☰</button>
+          <h3>Welcome User</h3>
+        </div>
+        <div class="navbar-center">
+          <div class="nav-search-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <input type="text" placeholder="Search..." class="search-input">
+        </div>
+        <a href="#"><button id="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></a>
+      </div>
+
+      <div class="container">
+        <div class="child1">
+          <h1>Welcome Back</h1>
+          <p>Glad to see you again! Your dashboard is ready with everything you need today.</p>
+        </div>
+
+        <div class="child2">
+          <div class="child2-items">
+            <i class="fa-solid fa-briefcase"></i>
+            <h5>Project</h5>
+          </div>
+          <div class="child2-items">
+            <i class="fa-solid fa-users"></i>
+            <h5>Client</h5>
+          </div>
+          <div class="child2-items">
+            <i class="fa-solid fa-chart-line"></i>
+            <h5>Report</h5>
+          </div>
+          <div class="child2-items">
+            <i class="fa-solid fa-gear"></i>
+            <h5>Settings</h5>
+          </div>
+        </div>
+      </div>
+
+      <section class="sec1">
+        <div class="sec-tittle">
+          <h2>Why teams choose Us</h2>
+          <p>Powerful project management features built for speed.</p>
+        </div>
+
+        <div class="sec-cards">
+          <div class="card">
+            <i class="fa-solid fa-window-restore"></i>
+            <h4>Board & List Views</h4>
+            <p>Switch easily between boards, lists, and timelines.</p>
+          </div>
+          <div class="card">
+            <i class="fa-solid fa-bolt"></i>
+            <h4>Fast Performance</h4>
+            <p>Lightweight tools to keep your workflow smooth.</p>
+          </div>
+          <div class="card">
+            <i class="fa-solid fa-shield"></i>
+            <h4>Secure</h4>
+            <p>Data protection and reliability you can trust.</p>
+          </div>
+        </div>
+      </section>
+      <div class="map-container">
+        <div class="map-img">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.592338447941!2d75.80102017522218!3d26.85291557668279!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db50028dfc3eb%3A0x7dd3a0bd7cacb03e!2sWTP%20park%20%2Cshobhit%20park%20malviya%20nagar%20jaipur!5e0!3m2!1sen!2sin!4v1758686489254!5m2!1sen!2sin"
+            width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="map-text">
+          <h2>Visit Our Place</h2>
+          <i>
+            <p>We warmly welcome you to visit our place and experience the difference in person.<br> Whether you’re
+              here
+              for business, support, or simply to connect, our team is ready to assist you. <br> Step into a space
+              designed to inspire productivity, innovation, and comfort.</p>
+          </i>
+        </div>
+      </div>
+      <!--section-2-->
+      <section class="sec2">
+        <div class="sec2-container">
+          <!--sec-heading-->
+          <div class="sec2-heading">
+            <h4>About Us</h4>
+            <p>We're building the fastest way for teams to coordinate work.<br> Task Me brings clarity to projects
+              with
+              powerful views, clean design, and automation that keeps everyone aligned.</p>
+          </div>
+          <!--content-->
+          <div class="sec2-content">
+            <div class="content-boxes">
+              <h4>Our Mission</h4>
+              <p>Help teams plan, execute, and deliver work with less friction.</p>
+            </div>
+            <div class="content-boxes">
+              <h4>Our Values</h4>
+              <p>Customer focus, simplicity, and reliability.</p>
+            </div>
+            <div class="content-boxes">
+              <h4>Who We Serve</h4>
+              <p>Product, engineering, marketing, and operations teams.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="sec3">
+        <div class="faq-container">
+          <div class="faq-item">
+            <div class="faq-question">1. What is your return policy?</div>
+            <div class="faq-answer">You can return any product within 30 days of purchase.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">2. Do you offer international shipping?</div>
+            <div class="faq-answer">Yes, we ship worldwide. Shipping charges apply.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">3. How can I track my order?</div>
+            <div class="faq-answer">You will receive a tracking number via email after your order is shipped.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">4. What payment methods do you accept?</div>
+            <div class="faq-answer">We accept credit/debit cards, UPI, net banking, and PayPal.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">5. How can I contact customer support?</div>
+            <div class="faq-answer">You can contact us via email or our 24/7 live chat support.</div>
+          </div>
+        </div>
+      </section>
+      <!---Service Section--->
+      <section class="services-section">
+        <h2>Our Services</h2>
+        <p>We provide solutions to boost your business efficiency and growth.</p>
+
+        <div class="services-container">
+          <div class="service-card">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Web Development</h3>
+            <p>Modern, responsive, and fast websites tailored for your business needs.</p>
+          </div>
+
+          <div class="service-card">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>App Development</h3>
+            <p>iOS & Android apps that enhance user experience and engagement.</p>
+          </div>
+
+          <div class="service-card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Digital Marketing</h3>
+            <p>SEO, ads, and content strategies that maximize your reach and sales.</p>
+          </div>
+
+          <div class="service-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Cyber Security</h3>
+            <p>Protect your data and business with our advanced security solutions.</p>
+          </div>
+        </div>
+      </section>
+      <div class="user-table-section">
+        <h2>Registered Users</h2>
+        <table id="userTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Password</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <footer class="footer">
+        <div class="footer-content">
+          <!-- About Section -->
+          <div class="footer-section about">
+            <h4>About Us</h4>
+            <p>We provide top-notch services to help you grow and achieve your goals.</p>
+            <div class="socials">
+              <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="#"><i class="fa-brands fa-twitter"></i></a>
+              <a href="#"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+          </div>
+
+          <!-- footer Links -->
+          <div class="footer-section links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Services</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+
+ 
+          <div class="footer-section newsletter">
+            <h4>Subscribe</h4>
+            <p>Get our latest updates and offers.</p>
+            <form>
+              <input type="email" placeholder="Your Email" required>
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          &copy; 2025 YourCompany. All rights reserved.
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script>
+    function toggleMenu() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+
+    // Load Users Table
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let tableBody = document.getElementById("userTable").querySelector("tbody");
+
+    users.forEach(user => {
+      let row = document.createElement('tr');
+
+      let nameCell = document.createElement('td');
+      nameCell.textContent = user.name;
+
+      let emailCell = document.createElement('td');
+      emailCell.textContent = user.email;
+
+      let passwordCell = document.createElement('td');
+      passwordCell.textContent = user.password;
+
+      row.appendChild(nameCell);
+      row.appendChild(emailCell);
+      row.appendChild(passwordCell);
+
+      tableBody.appendChild(row);
+    });
+
+    document.getElementById("logout").addEventListener('click', function Logout(){
+           window.location.href ="logout.html"
+    });
+  </script>
+  
+</body>
+
+</html>

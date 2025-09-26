@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>User Profile Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100%;
+            background: #fdf6e3;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background: #0d3b9d;
+            /* solid blue */
+            color: white;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 12px 20px;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+            transition: background 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background: #1e40af;
+            padding-left: 30px;
+        }
+
+        .close-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 220px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .hamburger-menu {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: rgb(0, 0, 0);
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            gap: 25px;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eee;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* User Info */
+        .user-info {
+            text-align: center;
+            grid-column: 1;
+        }
+
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: #0d3b9d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #0d3b9d;
+        }
+
+        .user-email {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .user-bio {
+            color: #444;
+            font-size: 14px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .stats-section {
+            grid-column: 2;
+        }
+
+        .stats-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #0d3b9d;
+        }
+
+        .stats-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .stat-card {
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            background: #0d3b9d;
+            color: white;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* Form */
+        .update-form {
+            grid-column: 1/-1;
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #0d3b9d;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0d3b9d;
+            box-shadow: 0 0 0 3px rgba(13, 59, 157, 0.15);
+        }
+
+        .update-btn {
+            background: #0d3b9d;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .update-btn:hover {
+            background: #1e40af;
+        }
+
+
+        @media(max-width:768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                transition: transform 0.3s ease;
+            }
+
+            .main-content.pushed {
+                transform: translateX(220px);
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+
+            .close-btn {
+                display: block;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .user-info,
+            .stats-section,
+            .update-form {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleMenu()">×</button>
+        <h2>My Dashboard</h2>
+        <a href="profile.html"><i class="fa-regular fa-circle-user"></i> Profile</a>
+        <a href="dash.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="settings.html"><i class="fa-solid fa-sun"></i> Settings</a>
+        <a href="help.html"><i class="fa-solid fa-headphones"></i> Help</a>
+        <a href="message.html"><i class="fa-solid fa-message"></i> Message</a>
+    </div>
+
+    <button class="hamburger-menu" id="hamburgerMenu">
+        <span></span><span></span><span></span>
+    </button>
+
+    <main class="main-content" id="mainContent">
+        <div class="container">
+            <div class="card user-info">
+                <div class="profile-picture" id="profilePicture">JD</div>
+                <h2 class="user-name" id="userName">John Doe</h2>
+                <p class="user-email" id="userEmail">john.doe@example.com</p>
+                <p class="user-bio" id="userBio">Full-stack developer passionate about UI and clean code.</p>
+            </div>
+
+            <div class="card stats-section">
+                <h3 class="stats-title">Performance Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">18</div>
+                        <div class="stat-label">Clients</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">96%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card update-form">
+                <h3 class="form-title">Update Profile</h3>
+                <form id="updateForm">
+                    <div class="form-group"><label for="nameInput">Full Name</label><input type="text" id="nameInput"
+                            value="John Doe"></div>
+                    <div class="form-group"><label for="emailInput">Email Address</label><input type="email"
+                            id="emailInput" value="john.doe@gmail.com"></div>
+                    <div class="form-group"><label for="bioInput">Bio</label><textarea
+                            id="bioInput">Full-stack developer passionate about UI and clean code.</textarea></div>
+                    <button type="button" class="update-btn" id="upd-btn" onclick="update()">Update Profile</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+
+
+        // Sidebar 
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('pushed');
+        }
+        hamburgerMenu.addEventListener('click', toggleMenu);
+
+
+        // function generateInitials(name) {
+        //     return name
+        //         .trim()
+        //         .split(' ')
+        //         .map(w => w.charAt(0).toUpperCase())
+        //         .join('')
+        //         .substring(0, 2);
+        // }
+
+
+        function update() {
+            const nameInput = document.getElementById("nameInput").value.trim();
+            const emailInput = document.getElementById("emailInput").value.trim();
+            const bioInput = document.getElementById("bioInput").value.trim();
+
+            if (!nameInput || !bioInput || !emailInput) {
+                alert("All fields are required!");
+                return;
+            }
+
+            if (!/^[A-Z]/.test(nameInput)) {
+                alert("Name must start with a capital letter");
+                return;
+            }
+
+            if (!emailInput.endsWith("@gmail.com")) {
+                alert("Email must end with @gmail.com");
+                return;
+            }
+
+
+            document.getElementById("userName").innerText = nameInput;
+            document.getElementById("userEmail").innerText = emailInput;
+            document.getElementById("userBio").innerText = bioInput;
+
+            alert("Profile updated successfully!");
+        }
+
+
+    </script>
+</body>
+
+</html>

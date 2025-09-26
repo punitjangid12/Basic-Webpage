@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Responsive Chat with Sidebar</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ece5dd;
+      height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      background: #0d2d87;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      /* padding: 10px; */
+      transition: transform 0.3s ease;
+    }
+    .sidebar h2 {
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .sidebar a {
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .sidebar a i {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+    .sidebar a:hover {
+      background: #1e40af;
+      padding-left: 30px;
+    }
+
+    /* Chat container */
+    .chat-container {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+    }
+
+    /* Top bar */
+    .chat-header {
+      background: #0d2d87;
+      color: #fff;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chat-header img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .chat-header span {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .chat-user {
+      display: flex;
+      align-items: center;
+    }
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    /* Messages area */
+    .chat-body {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #ece5dd;
+    }
+    .message {
+      max-width: 70%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 10px;
+      font-size: 15px;
+      line-height: 1.4;
+      clear: both;
+    }
+    .sent {
+      background: #dcf8c6;
+      margin-left: auto;
+    }
+    .received {
+      background: #fff;
+      margin-right: auto;
+    }
+
+    /* Bottom input area */
+    .footer-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background-color: #0d2d87;
+    }
+    .chat-footer {
+      width: 90%;
+      max-width: 500px;
+      display: flex;
+      padding: 10px;
+    }
+    .chat-footer input {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 25px;
+      outline: none;
+      font-size: 15px;
+    }
+    .chat-footer button {
+      margin-left: 10px;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 50%;
+      background: #38c569;
+      color: rgb(0, 0, 0);
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .chat-footer button:hover {
+      background: #000000;
+      color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 1000;
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .hamburger {
+        display: block;
+        margin-right: 10px;
+      }
+      .chat-container {
+        flex: none;
+        flex-grow: 1;
+      }
+    }
+  </style>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>My Dashboard</h2>
+  <a href="profile.html"><i class="fa-regular fa-circle-user"></i> Profile</a>
+        <a href="dash.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="settings.html"><i class="fa-solid fa-sun"></i> Settings</a>
+        <a href="help.html"><i class="fa-solid fa-headphones"></i> Help</a>
+        <a href="message.html"><i class="fa-solid fa-message"></i> Message</a>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="hamburger" onclick="toggleSidebar()">☰</div>
+      <div class="chat-user">
+        <img src="https://via.placeholder.com/45" alt="User">
+        <span>John Doe</span>
+      </div>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+      <div class="message received">Hello!</div>
+      <div class="message sent">Hey, how are you?</div>
+    </div>
+
+    <div class="footer-container">
+      <div class="chat-footer">
+        <input type="text" id="messageInput" placeholder="Type a message">
+        <button onclick= "sendMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function sendMessage() {
+      let input = document.getElementById("messageInput");
+      let msg = input.value.trim();
+      if (msg !== "") {
+        let chatBody = document.getElementById("chatBody");
+        let div = document.createElement("div");
+        
+      }
+    }

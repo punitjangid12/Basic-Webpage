@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #1e90ff;
+          
+        }
+        .logout-container{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            height: 200px;
+            width: 500px;
+            background: rgb(250, 243, 224);
+            border-radius: 25px;
+            gap: 20px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+        .logout-container p{
+            font-size: 20px;
+            
+        }
+        .btn-box{
+            height: 50px;
+            display:flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 60%;
+            
+        }
+        .log-btn{
+            height: 45px;
+            width:100px;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .log-btn:hover{
+            
+            background-color: black;
+            color: white;
+        }
+        @keyframes transform {
+                from {
+
+                }
+            }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <p><b>Are You Sure You Want To Log Out ?</b></p>
+        <div class="btn-box">
+            <button class="log-btn" id="yes">Yes</button>
+            <button class="log-btn" id="no">No</button>
+        </div>
+    </div>
+    <script>
+       document.getElementById("yes").addEventListener('click',  function logout(){
+        //   localStorage.clear();
+          window.alert("You Successfully LoggedOut")
+          window.location.href ="login.html";
+       })
+
+       document.getElementById("no").addEventListener('click',  function No(){
+            let prevPage = document.referrer;
+              if (prevPage) {
+                  window.location.href = prevPage; 
+                 } else {
+                  window.location.href = "profile.html"; // fallback
+                 }
+       })
+       
+    </script>
+</body>
+</html>
